@@ -276,3 +276,50 @@ if (item.name == "Tambah Buku") {
           }
 ```
 - Melakukan add, commit dan push untuk memperbarui repositori GitHub.
+
+## TUGAS 9
+1. Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+Ya, kita bisa melakukan pengambilan data JSON tanpa membuat model terlebih dahulu. Salah satu caranya adalah dengan menggunakan metode jsonDecode yang tersedia di paket dart:convert. Metode ini akan mengubah data JSON menjadi objek Map atau List yang bisa kita akses dengan menggunakan indeks. 
+Namun, ada beberapa kelemahan dari cara ini, yaitu:
+   - Kita harus mengetahui struktur dan kunci dari data JSON yang kita ambil. Jika kita salah menulis kunci atau indeks, maka kita akan mendapatkan null atau error.
+   - Kita harus melakukan konversi tipe data secara manual jika kita ingin menggunakan data JSON untuk operasi lain. Misalnya, jika kita ingin menambahkan umur seseorang dengan 5, kita harus mengubah data JSON yang berupa String menjadi int terlebih dahulu.
+   - Kita tidak bisa menggunakan fitur autocompletion atau type checking yang disediakan oleh IDE atau editor kita. Hal ini bisa menyebabkan kesalahan penulisan atau tipe data yang sulit dideteksi.
+
+   Oleh karena itu, cara yang lebih baik adalah dengan membuat model terlebih dahulu sebelum melakukan pengambilan data JSON. Model adalah kelas yang merepresentasikan struktur dan tipe data dari objek yang kita ambil dari JSON. Dengan menggunakan model, kita bisa mendapatkan beberapa keuntungan, yaitu:
+    - Kita bisa menggunakan konstruktor, metode, atau properti yang kita definisikan di dalam model untuk memanipulasi atau mengakses data JSON dengan mudah dan cepat.
+    - Kita bisa menggunakan fitur autocompletion atau type checking yang disediakan oleh IDE atau editor kita. Hal ini bisa membantu kita menghindari kesalahan penulisan atau tipe data yang tidak sesuai.
+    Kita bisa menggunakan paket json_serializable yang bisa membantu kita menghasilkan kode untuk mengubah data JSON menjadi objek model dan sebaliknya secara otomatis. 
+2. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter. CookieRequest adalah kelas yang digunakan untuk mengirim permintaan HTTP yang mengandung cookie ke server. Cookie adalah data kecil yang disimpan di browser atau aplikasi klien yang bisa digunakan untuk mengidentifikasi pengguna, menyimpan preferensi, atau mengirim informasi tambahan ke server. CookieRequest memungkinkan kita untuk mengatur cookie yang ingin kita kirim melalui properti cookies yang berupa daftar objek Cookie. Alasan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter adalah karena cookie biasanya digunakan untuk menyimpan informasi yang bersifat global atau berlaku untuk seluruh aplikasi, seperti sesi pengguna, token autentikasi, atau preferensi bahasa. Jika kita tidak membagikan instance CookieRequest, maka kita harus membuat cookie baru setiap kali kita ingin mengirim permintaan HTTP ke server yang sama, atau kita harus menyimpan cookie di tempat lain seperti SharedPreferences atau Hive. Hal ini bisa menyebabkan kerumitan, inkonsistensi, atau ketidakamanan dalam pengelolaan cookie. Dengan membagikan instance CookieRequest, kita bisa memastikan bahwa cookie yang kita kirim ke server selalu sama dan terjaga keamanannya. Salah satu cara untuk membagikan instance CookieRequest adalah dengan menggunakan provider atau get_it yang merupakan paket Flutter untuk melakukan dependency injection atau injeksi ketergantungan. Dengan menggunakan paket ini, kita bisa membuat instance CookieRequest yang bisa diakses oleh semua komponen di aplikasi Flutter melalui context atau locator. 
+3.  Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+    - Menambahkan dependensi http di file pubspec.yaml untuk melakukan permintaan HTTP.
+    - Membuat kelas model yang sesuai dengan struktur data JSON, dengan properti, konstruktor, metode fromJson, dan metode toJson.
+    - Melakukan permintaan HTTP GET ke URL yang mengandung data JSON, dan mendapatkan objek Response yang berisi status code, header, dan body.
+    - Mengubah data JSON yang ada di body menjadi objek Map atau List dengan menggunakan paket dart:convert.
+    - Mengubah objek Map atau List menjadi objek model dengan menggunakan metode fromJson yang ada di kelas model.
+    - Menampilkan objek model ke dalam widget Flutter dengan menggunakan properti yang ada di objek model, dan widget yang sesuai dengan kebutuhan, seperti Text, ListTile, ListView, Card, dll.
+4.  Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+    - Membuat form input data akun pada Flutter, yang berisi field untuk email dan password, serta tombol untuk login atau register.
+    - Membuat fungsi untuk mengirim data akun ke Django melalui permintaan HTTP POST, dengan menggunakan paket http atau dio pada Flutter.
+    - Membuat API endpoint untuk menerima data akun pada Django, dengan menggunakan paket djangorestframework atau django-rest-auth pada Django.
+    - Membuat fungsi untuk memvalidasi data akun yang diterima oleh Django, dengan menggunakan paket django.contrib.auth atau django-allauth pada Django.
+    - Membuat fungsi untuk mengirim respons berupa status autentikasi (sukses atau gagal) dan token (jika sukses) dari Django ke Flutter, dengan menggunakan paket djangorestframework atau django-rest-auth pada Django.
+    - Membuat fungsi untuk menerima respons dari Django dan menyimpan token (jika ada) pada Flutter, dengan menggunakan paket shared_preferences atau hive pada Flutter.
+    - Membuat fungsi untuk menampilkan menu atau halaman lain sesuai dengan status autentikasi pada Flutter, dengan menggunakan paket get atau flutter_bloc pada Flutter.
+  5. Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
+     - MaterialApp: Widget ini digunakan sebagai root dari aplikasi Flutter yang mengikuti desain Material Design. Ini mencakup konfigurasi umum seperti judul aplikasi, tema, dan navigasi.
+     - Scaffold: Widget ini menyediakan struktur dasar untuk sebuah layar yang mengikuti konsep Material Design. Ini bisa berisi app bar, body, drawer, bottom navigation, dan lainnya.
+     - Container: Widget yang serbaguna untuk mengatur tata letak dan dekorasi. Ini bisa berupa wadah kosong atau berisi widget lain di dalamnya.
+     - Column dan Row: Digunakan untuk mengatur tata letak vertikal (Column) dan horizontal (Row) dari widget-widget yang ditempatkan di dalamnya.
+     - Text: Menampilkan teks di layar dengan gaya dan format tertentu.
+     - ListView : Untuk menampilkan daftar item dalam bentuk vertikal (ListView).
+     - TextField: Widget input untuk menerima input teks dari pengguna
+     - FlatButton, RaisedButton, atau ElevatedButton: Tombol-tombol untuk interaksi pengguna.
+     - Stack dan Positioned: Untuk mengatur tata letak dengan lapisan di atas lapisan lainnya.
+  6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+     - Menginstall depedensi yang diperlukan antara lain: flutter pub add provider, flutter pub add pbp_django_auth, serta flutter pub add http.
+     - Menambahkan modul autentikasi pada proyek Django sebelumnya dan mengatur views.py agar dapat menangani permintaan yang akan diterima dari aplikasi Flutter, termasuk proses login, logout, dan pendaftaran pengguna baru.
+     - Membuat model yang sesuai dengan struktur data JSON, dengan menggunakan situs web Quicktype dengan langkah-langkah seperti membuka endpoint JSON yang sudah dibuat, memasukkan data JSON ke Quicktype dengan pengaturan seperti nama model "Product", tipe sumber "JSON", dan bahasa "Dart", lalu gunakan opsi "Copy Code" untuk mendapatkan kode yang dihasilkan.
+     - Membuat laman login untuk memungkinkan user login.
+     - Mengkonfigurasi button logout pada main.dart agar dapat membuat user logout.
+     - Mengkonfigurasi views.py pada app main pada tugas django sebelumnya untuk menghandle request untuk mengambil data user.
+     - Melakukan git add, commit, dan push.
