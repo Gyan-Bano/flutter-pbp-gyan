@@ -6,6 +6,7 @@ import 'package:libralogia/widgets/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
+
 class ShopFormPage extends StatefulWidget {
     const ShopFormPage({super.key});
 
@@ -15,9 +16,14 @@ class ShopFormPage extends StatefulWidget {
 
 class _ShopFormPageState extends State<ShopFormPage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = "";
-  int _ammount = 0;
+   String _name = "";
+  int _amount = 0;
   String _description = "";
+  String _author = "";
+  int _year = 0;
+  String _publisher = "";
+  String _genre = "";
+  double _rating = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -64,23 +70,92 @@ class _ShopFormPageState extends State<ShopFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Jumlah",
-                    labelText: "Jumlah",
+                    hintText: "Penulis",
+                    labelText: "Penulis",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _ammount = int.parse(value!);
+                      _author = value!;
                     });
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Buku tidak boleh kosong!";
+                      return "Penulis tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Tahun Terbit",
+                    labelText: "Tahun Terbit",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _year = int.parse(value!);
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Tahun terbit tidak boleh kosong!";
                     }
                     if (int.tryParse(value) == null) {
-                      return "Buku harus berupa angka!";
+                      return "Tahun terbit harus berupa angka!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Penerbit",
+                    labelText: "Penerbit",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _publisher = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Penerbit tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Genre",
+                    labelText: "Genre",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _genre = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Genre tidak boleh kosong!";
                     }
                     return null;
                   },
@@ -109,6 +184,61 @@ class _ShopFormPageState extends State<ShopFormPage> {
                   },
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Rating",
+                    labelText: "Rating",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _rating = double.parse(value!);
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Rating tidak boleh kosong!";
+                    }
+                    double rating = double.tryParse(value)!;
+                    if (rating < 0 || rating > 5) {
+                      return "Rating harus berada antara 0 dan 5!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Jumlah",
+                    labelText: "Jumlah",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _amount = int.parse(value!);
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Jumlah tidak boleh kosong!";
+                    }
+                    int amount = int.tryParse(value)!;
+                    if (amount < 0) {
+                      return "Jumlah tidak boleh kurang dari 0!";
+                    }
+
+                    return null;
+                  },
+                ),
+              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -126,8 +256,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                             "http://localhost:8000/create-flutter/",
                             jsonEncode(<String, String>{
                                 'name': _name,
-                                'ammount': _ammount.toString(),
+                                'amount': _amount.toString(),
                                 'description': _description,
+                                'author': _author,
+                                'year': _year.toString(),
+                                'publisher': _publisher,
+                                'genre': _genre,
+                                'rating': _rating.toString(),
                                 // TODO: Sesuaikan field data sesuai dengan aplikasimu
                             }));
                             if (response['status'] == 'success') {
